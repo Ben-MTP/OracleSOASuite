@@ -1,0 +1,39 @@
+Oracle BPEL Process Manager runtime enviroment
+BPEL = (XML and Web services)
+	including SOAP, 
+	WSDL, U
+	DDI, 
+	WS-Reliable Messaging, 
+	WS-Addressing, 
+	WS-Coordination, 
+	and WS-Transaction
+Within the enterprise:
+BPEL enables easier and more effective integration with business partners
+With increases in the use of Web services, the importance of BPEL will increase as well.
+1. First have to define the process Web Services Definition Language (WSDL):
+ 
+9:30 -> 11:30
+
+
+Web services can be combined in two ways:
+
+Orchestration:
+	-> 
+Choreography:
+	-> 
+	
+BPEL Process -> other web services;
+
+Employee Travel Status Web Service:
+	EmployeeTravelStatusPT
+	
+	
+Create the Business Process
+	Partner Links
+	Variables
+	BPEL Process Main Body
+	
+http://localhost:7101/BPELConsole/index.jsp
+
+Oracle BPEL Process Manager -> BPEL business processes
+

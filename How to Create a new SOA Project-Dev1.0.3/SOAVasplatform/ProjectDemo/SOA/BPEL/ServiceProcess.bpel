@@ -1,0 +1,93 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer
+
+  Created: Sat Jun 08 09:34:41 ICT 2019
+  Author:  MaiHuyCanh
+  Type: BPEL 2.0 Process
+  Purpose: Empty BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="ServiceProcess"
+               targetNamespace="http://xmlns.oracle.com/SOAVasplatform/ProjectDemo/ServiceProcess"
+               xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+               xmlns:client="http://xmlns.oracle.com/SOAVasplatform/ProjectDemo/ServiceProcess"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+               xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://xmlns.oracle.com/SOAVasplatform/ProjectDemo/ServiceDemo"
+         xmlns:ns2="http://xmlns.oracle.com/SOAApplication/Calculate/BPELProcess"
+         xmlns:ui="http://xmlns.oracle.com/soa/designer" xmlns:ns4="http://vasplatform.com"
+         xmlns:ns3="http://vasplatform.mobifone.com"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:ess="http://xmlns.oracle.com/scheduler" xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap">
+
+  <!--
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC
+     Set of activities coordinating the flow of messages across the
+     services integrated within this business process
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <import namespace="http://xmlns.oracle.com/SOAVasplatform/ProjectDemo/ServiceDemo"
+          location="../WSDLs/ServiceDemo.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+  <import namespace="http://xmlns.oracle.com/SOAVasplatform/ProjectDemo/ServiceDemo"
+          location="../WSDLs/ServiceDemoWrapper.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"
+          ui:processWSDL="true"/>
+  <partnerLinks>
+    <partnerLink name="SOAPService" partnerLinkType="ns1:SOAPService" myRole="execute_ptt"/>
+    <partnerLink name="SOAPReference" partnerLinkType="ns2:BPELProcess" partnerRole="BPELProcessProvider"/>
+  </partnerLinks>
+  <variables>
+    <variable name="Input_ServiceInbound" messageType="ns1:requestMessage"/>
+    <variable name="Output_ServiceInbound" messageType="ns1:replyMessage"/>
+    <variable name="Input_SOAPOutbound" messageType="ns2:BPELProcessRequestMessage"/>
+    <variable name="Output_SOAPOutbound" messageType="ns2:BPELProcessResponseMessage"/>
+  </variables>
+  <sequence name="main">
+    <receive name="Receive" createInstance="yes" partnerLink="SOAPService" portType="ns1:execute_ptt"
+             operation="execute" variable="Input_ServiceInbound"/>
+    <assign name="AssignMapInputOutbound">
+      <copy>
+        <from>$Input_ServiceInbound.request/ns3:MSISDN</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$Input_SOAPOutbound.payload/ns4:a</to>
+      </copy>
+      <copy>
+        <from>$Input_ServiceInbound.request/ns3:PACKAGE_NAME</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$Input_SOAPOutbound.payload/ns4:b</to>
+      </copy>
+      <copy>
+        <from>$Input_ServiceInbound.request/ns3:TIME_START</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$Input_SOAPOutbound.payload/ns4:type</to>
+      </copy>
+    </assign>
+    <invoke name="Invoke" partnerLink="SOAPReference" portType="ns2:BPELProcess"
+            operation="process" inputVariable="Input_SOAPOutbound" outputVariable="Output_SOAPOutbound"
+            bpelx:invokeAsDetail="no"/>
+    <assign name="AssignMapOutput">
+      <copy>
+        <from>$Output_SOAPOutbound.payload/ns4:Result</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$Output_ServiceInbound.response</to>
+      </copy>
+      <copy>
+        <from>'status message'</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$Output_ServiceInbound.response/ns3:STATUS_MESSAGE</to>
+      </copy>
+      <copy>
+        <from>' message'</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$Output_ServiceInbound.response/ns3:MESSAGE</to>
+      </copy>
+    </assign>
+    <reply name="Reply" partnerLink="SOAPService" variable="Output_ServiceInbound" portType="ns1:execute_ptt"
+           operation="execute"/>
+  </sequence>
+</process>

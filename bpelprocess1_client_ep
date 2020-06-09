@@ -1,0 +1,35 @@
+Input_ServiceInbound
+requestMessage
+----------
+Output_ServiceInbound
+relyMessage
+----------
+Input_SOAPOutbound
+BPELProcessRequestMessage
+----------
+Output_SOAPOutbound
+BPELProcessResponseMessage
+
+WSDL builder Interface
+Opens the WSDL Create Dialog, in which you create a WSDL Document.
+To enable this option, you must select a project or a file within a project in the Application Navigator
+
+Việc mở lên hộp thoại Create WSDL, cái mà bạn tạo một WSDL document.
+Để cho phép tùy chọn này, ban phải chọn một Project hoặc một file trong một project trong phần Application Navigator.
+
+http://10.252.10.103:7101/soa-infra/services/default/HelloSOA!1.0*soa_e087c2bc-8dc7-4c1d-a72b-30e8d380fe00/hellword_bpel_client_ep?WSDL
+https://10.252.10.103:7102/soa-infra/services/default/HelloSOA!1.0/hellword_bpel_client_ep?WSDL
+
+
+{http://xmlns.oracle.com/DemoCompositBPELProcess/DemoBPELProcess/BPELProcessDemo}process
+{http://xmlns.oracle.com/DemoCompositBPELProcess/DemoBPELProcess/BPELProcessDemo}processResponse
+
+Phần process cho: 
+bpelprocess1_client_ep --> BPELProcess1
+
+bpelprocess2_client_ep --> BPELProcess2
+
+
+2151 0001 5585 25
+
+taiwebs.com

@@ -1,0 +1,61 @@
+Moi lan khoi dong:
+set JAVA_TOOL_OPTIONS=-Djdk.lang.Process.allowAmbiguousCommands=true
+
+------------
+Oracle recommends that you locate your JDK installation in the /home/oracle/products/jdk directory
+-> Oracle khuyến nghị rằng bạn đặt vị trí của JDK trong đường dẫn: /home/oracle/products/jdk
+
+net user [user_name]
+whoami /priv
+whoami /all
+
+How do i know if i have Windows adminstrator rights?
+After following the steps in this section, you will be able to test applications using the Integrated WebLogic Server and Java DB.
+
+Chuẩn bị để phát hành một Integrated WebLogic Server:
+
+Oracle Home Location: E:\home\oracle\product\ORACLE_HOME
+Log File Location: C:\Users\ManhKM\AppData\Local\Temp\OraInstall2020-06-04_09-38-45AM\install2020-06-04_09-38-45AM.log
+Oracle Fusion Middleware
+1. Setting the JDEVE_USER_DIR Environment Variable:
+	JDEV_USER_DIR -> Nơi cho working project in JDeveloper.
+	chưa tìm được nơi để lưu trữ: JDEV_USER_DIR
+	
+2. Setting the ORACLE_HOME Environment Variable:
+	SET ORACLE_HOME=E:\home\oracle\product\ORACLE_HOME
+	
+	/products/Oracle_Home -> Chứa Oracle_Home.
+	
+	The /products/config directory (containing the Domain home and Application home):
+	/home/Oracle/config/domains -> The domain_home
+	/home/Oracle/config/applications -> Application_home
+	
+	Configuring JDeveloper's Default Domain
+	
+3. Checking Entropy for Oracle Linux.
+	Xóa thư mục cũ:
+	
+	
+
+Configuring JDeveloper's Default Domain
+Administrator: weblogic
+pass: 12345678aA
+
+
+Cách 1: Xóa ở đường dẫn: AppData\Roaming\JDeveloper\system12.1.3...
+	Close JDeveloper + Restart it again -> 
+	Re-config Integrated WebLogic Server.
+	
+SOA Debugger listening on port 7453
+
+---------------
+1. Access the Enterprise Manager Fusion Middleware Control
+	http://hostname.domain:7101/em
+	Truy cập đến Trình quản lý điều kiển Enterprise Fusion Middleware.
+2. Oracle Service Bus console
+	http://hostname.domain:7101/servicebus
+	Bảng điều kiển của Oracle Service Bus -> 
+3. 
+link hay:
+http://bit.ly/2u6xbL5
+

@@ -1,0 +1,9 @@
+10.54.146.89:22
+user/pass: appgw/appgw@123
+
+Bước 1:
+Proxy type: SOCKS4
+host name: 10.252.10.249:1080
+
+Bước 2: Open Putty
+-> thực hiện quá trình tunnel

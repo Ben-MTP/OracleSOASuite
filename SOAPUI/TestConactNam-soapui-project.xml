@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project id="73358e80-32c1-41ef-a199-47a34d7e9f3e" activeEnvironment="Default" name="TestConactNam" soapui-version="5.2.1" abortOnError="false" runType="SEQUENTIAL" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" id="d6dbd1e3-edab-4ee5-a81d-3fffde43de3c" wsaVersion="NONE" name="BPELShowInformationBinding" type="wsdl" bindingName="{http://xmlns.oracle.com/TrainingSOA/DemoCreateSchame/BPELShowInformation}BPELShowInformationBinding" soapVersion="1_1" anonymous="optional" definition="http://10.252.10.103:7101/soa-infra/services/default/DemoCreateSchame/bpelshowinformation_client_ep?WSDL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://10.252.10.103:7101/soa-infra/services/default/DemoCreateSchame/bpelshowinformation_client_ep?WSDL"><con:part><con:url>http://10.252.10.103:7101/soa-infra/services/default/DemoCreateSchame/bpelshowinformation_client_ep?WSDL</con:url><con:content><![CDATA[<wsdl:definitions name="BPELShowInformation" targetNamespace="http://xmlns.oracle.com/TrainingSOA/DemoCreateSchame/BPELShowInformation" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:client="http://xmlns.oracle.com/TrainingSOA/DemoCreateSchame/BPELShowInformation" xmlns:ns1="http://www.example.org" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:documentation>
+    <abstractWSDL>http://10.252.10.103:7101/soa-infra/services/default/DemoCreateSchame!1.1/WSDLs/BPELShowInformation.wsdl</abstractWSDL>
+  </wsdl:documentation>
+  <plnk:partnerLinkType name="BPELShowInformation">
+    <plnk:role name="BPELShowInformationProvider" portType="client:BPELShowInformation"/>
+  </plnk:partnerLinkType>
+  <wsdl:types>
+    <schema xmlns="http://www.w3.org/2001/XMLSchema">
+      <import namespace="http://www.example.org" schemaLocation="http://10.252.10.103:7101/soa-infra/services/default/DemoCreateSchame/bpelshowinformation_client_ep?XSD=../Schemas/Person1.xsd"/>
+    </schema>
+  </wsdl:types>
+  <wsdl:message name="BPELShowInformationRequestMessage">
+    <wsdl:part name="payload" element="ns1:input"/>
+  </wsdl:message>
+  <wsdl:message name="BPELShowInformationResponseMessage">
+    <wsdl:part name="payload" element="ns1:output"/>
+  </wsdl:message>
+  <wsdl:portType name="BPELShowInformation">
+    <wsdl:operation name="process">
+      <wsdl:input message="client:BPELShowInformationRequestMessage"/>
+      <wsdl:output message="client:BPELShowInformationResponseMessage"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BPELShowInformationBinding" type="client:BPELShowInformation">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="process">
+      <soap:operation style="document" soapAction="process"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="bpelshowinformation_client_ep">
+    <wsdl:port name="BPELShowInformation_pt" binding="client:BPELShowInformationBinding">
+      <soap:address location="http://10.252.10.103:7101/soa-infra/services/default/DemoCreateSchame/bpelshowinformation_client_ep"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part><con:part><con:url>http://10.252.10.103:7101/soa-infra/services/default/DemoCreateSchame/bpelshowinformation_client_ep?XSD=../Schemas/Person1.xsd</con:url><con:content><![CDATA[<xsd:schema targetNamespace="http://www.example.org" elementFormDefault="qualified" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:manhkm="http://www.example.org">
+  <xsd:element name="input">
+    <xsd:annotation>
+      <xsd:documentation>A sample element</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType>
+      <xsd:sequence>
+        <!--Gia tri dau vao-->
+        <xsd:element name="value_1" type="xsd:string"/>
+        <xsd:element name="value_2" type="xsd:string"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="output">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="value_3" type="xsd:string"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="saving"/>
+</xsd:schema>]]></con:content><con:type>http://www.w3.org/2001/XMLSchema</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://10.252.10.103:7101/soa-infra/services/default/DemoCreateSchame/bpelshowinformation_client_ep</con:endpoint></con:endpoints><con:operation id="d05f2f1a-eaf4-4bf7-b0c0-d83e3d69b383" isOneWay="false" action="process" name="process" bindingOperationName="process" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="8a2d442e-65cc-4877-ac5e-1e1403ddf36c" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://10.252.10.103:7101/soa-infra/services/default/DemoCreateSchame/bpelshowinformation_client_ep</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:exam="http://www.example.org">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <exam:input>\r
+         <exam:value_1>ManhKM</exam:value_1>\r
+         <exam:value_2> uet</exam:value_2>\r
+      </exam:input>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="process"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/></con:soapui-project>

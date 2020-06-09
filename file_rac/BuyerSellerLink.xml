@@ -1,0 +1,9 @@
+<partnerLinkType name="BuyerSellerLink"
+xmlns="http://schemas.xmlsoap.org/ws/2003/05/partner-link/">
+  <role name="Buyer">
+    <portType name="buy:BuyerPortType"/>
+  </role>
+  <role name="Seller">
+    <portType name="sell:SellerPortType"/>
+  </role>
+</partnerLinkType>

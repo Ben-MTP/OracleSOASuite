@@ -1,0 +1,16 @@
+Bước 1: Tạo Schemas -> file format xsd -> Ex: InteractPayment.xsd.
+Bước 2: Tạo WSDL -> file format wsdl(WSDL Builder) -> ServiceDemoMain.wsdl.
+
+Bước 3: Quay trở lại 
+
+45
+
+1. Phối hợp với NEO_THAI.HOA về phần IVR của dịch vụ Alome.
+Xây dựng mã lệnh cho việc kiểm tra trạng thái thuê bao: Đăng kí, Đăng kí lần 2, Chưa đăng kí.
+2. Khai báo, test dịch vụ ALOME MOBIFONE, HAPPYCALL trên kênh SMS
+
+
+
+Error while reading file
+WSDLException: faultCode=PARSER_ERROR: Error reading source with
+PublicId: null:java.io.FileNotFoundException

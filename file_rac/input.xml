@@ -1,0 +1,10 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:proc="http://xmlns.oracle.com/TrainingSOA/HelloBPELProcess/Process1">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <proc:process>
+         <proc:value_1>100</proc:value_1>
+         <proc:value_2>200</proc:value_2>
+         <proc:value_3>300</proc:value_3>
+      </proc:process>
+   </soapenv:Body>
+</soapenv:Envelope>

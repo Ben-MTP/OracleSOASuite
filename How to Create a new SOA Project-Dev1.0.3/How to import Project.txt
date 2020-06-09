@@ -1,0 +1,3 @@
+Unpack -> file Example SourceCode
+Use JDeveloper Tool
+File -> Open -> open file SOAVasplatform.jws

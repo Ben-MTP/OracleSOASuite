@@ -1,0 +1,36 @@
+...
+ <!-- Make a concurrent invocation to AA in DA -->
+ <flow>
+ 
+ <sequence>
+ <!-- Async invoke of the AA Web service and wait for the callback-->
+ 
+ <invoke partnerLink="AmericanAirlines"
+ portType="aln:FlightAvailabilityPT"
+ operation="FlightAvailability"
+ inputVariable="FlightDetails" />
+ 
+ <receive partnerLink="AmericanAirlines"
+ portType="aln:FlightCallbackPT"
+ operation="FlightTicketCallback"
+ variable="FlightResponseAA" />
+ 
+ </sequence>
+ 
+ <sequence>
+ <!-- Async invoke of the DA Web service and wait for the callback-->
+ 
+ <invoke partnerLink="DeltaAirlines"
+ portType="aln:FlightAvailabilityPT"
+ operation="FlightAvailability"
+ inputVariable="FlightDetails" />
+ 
+ <receive partnerLink="DeltaAirlines"
+ portType="aln:FlightCallbackPT"
+ operation="FlightTicketCallback"
+ variable="FlightResponseDA" />
+ 
+ </sequence>
+ 
+ </flow>
+ ...

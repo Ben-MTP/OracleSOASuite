@@ -1,0 +1,17 @@
+BPEL enables the top-down realization of Service Oriented Architecture (SOA)
+composition, orchestration, and coordination of Web services:
+The Oracle BPEL Process Manager runtime environment:
+BPEL builds on the foundation of XML and Web services:
+including SOAP, 
+WSDL, 
+UDDI, 
+WS-Reliable Messaging, 
+WS-Addressing, 
+WS-Coordination,
+WS-Transaction
+
+Invoking other Web services
+
+BuyBookPT - will serve for client requests
+ClientCallbackPT
+ClientCallbackFault

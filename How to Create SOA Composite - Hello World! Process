@@ -1,0 +1,27 @@
+Building a Business Process:
+	using Unified Modeling Language (UML) activity diagrams
+	Ngôn ngữ thực thi quy trình nghiệp vụ:
+	Business Process Execution Language.
+	
+	
+SOAP web service.
+RESTful web service.
+
+Service components are the building blocks that you use to construct a SOA composite application. 
+Examples
+
+BPEL:
+Human Task:
+Business Rules:
+Mediators:
+Spring:
+
+Tài liệu tham khảo:
+1. Create SOA composite hello world process:
+	https://tekslate.com/create-soa-composite-hello-world-process
+
+2. 
+
+
+
+
