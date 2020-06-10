@@ -7,3 +7,10 @@ host name: 10.252.10.249:1080
 
 Bước 2: Open Putty
 -> thực hiện quá trình tunnel
+
+SOA_Connnect_ApplicationServer
+Connection Type: Weblogic 12.x
+Username: weblogic
+pass: 12345678aA
+Weblogic Hostname Admminstration
+
