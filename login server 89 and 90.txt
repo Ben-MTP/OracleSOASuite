@@ -14,3 +14,20 @@ Username: weblogic
 pass: 12345678aA
 Weblogic Hostname Admminstration
 
+DangKyProcess.wsdl
+
+Mô tả lại việc xử lý đăng kí của thuê bao Phân tích luồng sử lý SOA Đăng ký Flow đăng kí:
+
+Kiểm tra thông tin thuê bao đã đăng kí gói cước hay chưa
+Nếu đăng kí rồi thì không có đăng kí lại
+Nếu chưa đăng kí thì cho đăng kí gói cước + chương trình khuyến mại nào đó
+Khi đăng kí xong -> thực hiện trừ tiền trong tài khoản của khách hang
+Kiểm tra việc tài khoản có đủ tiền hay không?
+Nếu dủ tiền thì cho đăng kí
+Nếu không đủ tiền thì đăng kí không thành công
+Nếu thuê thuộc tập danh sách không được đăng kí -> Đăng kí không thành công
+Thuê bao bị chặn bởi nằm trong mục tập black-list
+
+https://www.pdfdrive.com/
+
+Retreive Result From Cache
