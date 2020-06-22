@@ -1,0 +1,23 @@
+Business Process Execution Language (BPEL)
+
+XSL Transformations (XSLT)
+
+XQuery Transformations (XQuery)
+
+Java Messaging Service (JMS)
+
+Web Service Definition Language (WSDL) file
+
+Simple Object Access Protocol (SOAP)
+
+Representational State Transfer (REST)
+
+JavaScript Object Notation (JSON)
+
+Web Application Description Language (WADL)
+
+Simple SOA Composite Architecture -> Kiến trúc đơn giản của SOA Composite.
+--------
+Install Oracle SOA Suite Quick Start. -> đã cài đặt -> ok
+
+Làng chài Hàm Ninh
