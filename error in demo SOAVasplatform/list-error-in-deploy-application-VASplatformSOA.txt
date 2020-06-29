@@ -1,0 +1,15 @@
+Error: "type" is set to "null" on this <vprop:propertyAlias>  but it cannot be resolved (check value of "type", imports, WSDLs or XSDs).	
+DangKyProcess.bpel	
+E:\10_REPO_GIT\GIT_SOA\VASplatformSOA\SOA.DangKy\SOA\BPEL	SOA.DangKy.jpr
+
+
+--> tất cả code nằm trong file: DangKyProcess.bpel -> 
+
+string($ParameterPool/ns2:Parameters[@Index = 1]/ns2:Parameter[ns2:name = 'MSISDN']/ns2:value)
+$ParameterPool
+/
+ns2:Parameters[@Index = 1]
+/
+ns2:Parameter[ns2:name = 'MSISDN']
+/
+ns2:value

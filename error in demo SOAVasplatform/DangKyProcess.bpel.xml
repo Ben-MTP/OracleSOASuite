@@ -1,0 +1,608 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Tue Nov 19 14:06:35 ICT 2019
+  Author:  ManhKM
+  Type: BPEL 2.0 Process
+  Purpose: Synchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="DangKyProcess"
+               targetNamespace="http://xmlns.oracle.com/VASplatformSOA/SOA_DangKy/DangKyProcess"
+               xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+               xmlns:client="http://xmlns.oracle.com/VASplatformSOA/SOA_DangKy/DangKyProcess"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:ui="http://xmlns.oracle.com/soa/designer"
+               xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://xmlns.oracle.com/VASPLatformServiceBus/BS.Diameter/NEOwebservice"
+         xmlns:ns2="http://vasplatform.mobifone.vn"
+         xmlns:ns3="http://xmlns.oracle.com/pcbpel/adapter/coherence/VASplatformSOA/SOA.DangKy/LookupCoherence"
+         xmlns:ns4="http://xmlns.oracle.com/pcbpel/adapter/coherence/LookupCoherence/request"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:ess="http://xmlns.oracle.com/scheduler" xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+         xmlns:ns5="http://xmlns.oracle.com/pcbpel/adapter/db/VASplatformSOA/SOA.DangKy/dbCheckPackageData"
+         xmlns:ns6="http://xmlns.oracle.com/pcbpel/adapter/db/sp/dbCheckPackageData"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns:ns7="http://xmlns.oracle.com/pcbpel/adapter/db/VASplatformSOA/SOA.DangKy/CheckDatabase"
+         xmlns:ns8="http://xmlns.oracle.com/pcbpel/adapter/db/sp/CheckDatabase"
+         xmlns:ns9="http://xmlns.oracle.com/VASplatformSOA/SOA_DangKy/DangKyProcess/correlationset"
+         xmlns:ns10="http://xmlns.oracle.com/pcbpel/adapter/db/VASplatformSOA/SOA.DangKy/updateDatabase"
+         xmlns:ns11="http://xmlns.oracle.com/pcbpel/adapter/db/sp/updateDatabase">
+  <bpelx:annotation>
+    <bpelx:analysis>
+      <bpelx:property name="propertiesFile">
+        <![CDATA[../WSDLs/DangKyProcess_properties.wsdl]]>
+      </bpelx:property>
+    </bpelx:analysis>
+  </bpelx:annotation>
+  <import namespace="http://vasplatform.mobifone.vn" location="../Schemas/SOAFormat.xsd"
+          importType="http://www.w3.org/2001/XMLSchema"/>
+  <import ui:processWSDL="true" namespace="http://xmlns.oracle.com/VASplatformSOA/SOA_DangKy/DangKyProcess" location="../WSDLs/DangKyProcess.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        PARTNERLINKS                                                      
+        List of services participating in this BPEL process               
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    --> 
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="dangkyprocess_client" partnerLinkType="client:DangKyProcess" myRole="DangKyProcessProvider"/>
+    <partnerLink name="BS.Diameter" partnerLinkType="ns1:NEOwebservice" partnerRole="NEOwebserviceProvider"/>
+    <partnerLink name="LookupCoherence" partnerLinkType="ns3:Get_plt" partnerRole="Get_role"/>
+    <partnerLink name="CheckDatabase" partnerLinkType="ns7:CheckDatabase_plt" partnerRole="CheckDatabase_role"/>
+    <partnerLink name="updateDatabase" partnerLinkType="ns10:updateDatabase_plt" partnerRole="updateDatabase_role"/>
+  </partnerLinks>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+    <variable name="inputVariable" messageType="client:DangKyProcessRequestMessage"/>
+
+    <!-- Reference to the message that will be returned to the requester-->
+    <variable name="outputVariable" messageType="client:DangKyProcessResponseMessage"/>
+    <variable name="ParameterPool" element="ns2:ParameterPool"/>
+    <variable name="TmpParameter" element="ns2:Parameter"/>
+    <variable name="receiveInput_process_InputVariable" messageType="client:DangKyProcessRequestMessage"/>
+    <variable name="receiveInput_process_InputVariable_1" messageType="client:DangKyProcessRequestMessage"/>
+    <variable name="receiveInput_process_InputVariable_2" messageType="client:DangKyProcessRequestMessage"/>
+    <variable name="receiveInput_process_InputVariable_3" messageType="client:DangKyProcessRequestMessage"/>
+    <variable name="receiveInput_process_InputVariable_4" messageType="client:DangKyProcessRequestMessage"/>
+  </variables>
+  <correlationSets>
+    <correlationSet name="CorrelationSet_KEY" properties="ns9:msisdn ns9:service_code"/>
+  </correlationSets>
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main">
+
+    <!-- Receive input from requestor. (Note: This maps to operation defined in DangKyProcess.wsdl) -->
+    <receive name="receiveInput" partnerLink="dangkyprocess_client" portType="client:DangKyProcess" operation="process" variable="inputVariable" createInstance="yes">
+      <correlations>
+        <correlation set="CorrelationSet_KEY" initiate="yes"/>
+      </correlations>
+    </receive>
+    <assign name="InitParam">
+      <bpelx:annotation>
+        <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+      </bpelx:annotation>
+      <copy>
+        <from>ora:doXSLTransformForDoc("../Transformations/InitParam.xsl", $inputVariable.payload)</from>
+        <to variable="ParameterPool"/>
+      </copy>
+    </assign>
+    
+    <scope name="LookupCoherence">
+      <variables>
+        <variable name="callLookupCoherence_Get_InputVariable" messageType="ns3:Get_msg"/>
+        <variable name="callLookupCoherence_Get_OutputVariable" messageType="ns3:GetResponse_msg"/>
+        <variable name="replyFail_process_OutputVariable" messageType="client:DangKyProcessResponseMessage"/>
+      </variables>
+      <sequence name="Sequence2">
+        <if name="isLookupCoherence">
+          <condition expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">xp20:lower-case($inputVariable.payload/ns2:Parameters/ns2:Parameter[ns2:name = 'LOOKUP_COHERENCE']/ns2:value) = 'true'</condition>
+          <sequence>
+            <if name="checkCacheName">
+              <documentation>
+                <![CDATA[missing CACHE_NAME]]>
+              </documentation>
+              <condition expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">not($inputVariable.payload/ns2:Parameters/ns2:Parameter[ns2:name = 'CACHE_NAME']/ns2:value)</condition>
+              <sequence name="Sequence4">
+                <assign name="mapFail">
+                  <copy>
+                    <from>'1'</from>
+                    <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$replyFail_process_OutputVariable.payload/ns2:STATUS</to>
+                  </copy>
+                  <copy>
+                    <from>'Missing parameter name=CACHE_NAME'</from>
+                    <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$replyFail_process_OutputVariable.payload/ns2:STATUS_MESSAGE</to>
+                  </copy>
+                </assign>
+                <reply name="replyFail" partnerLink="dangkyprocess_client" variable="replyFail_process_OutputVariable"
+                       portType="client:DangKyProcess" operation="process"/>
+                <exit name="Exit"/>
+              </sequence>
+            </if>
+            <assign name="mapKey">
+              <copy>
+                <from>$inputVariable.payload/ns2:Parameters/ns2:Parameter[ns2:name = 'CACHE_NAME']/ns2:value</from>
+                <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$callLookupCoherence_Get_InputVariable.body</to>
+              </copy>
+            </assign>
+            <invoke name="callLookupCoherence" partnerLink="LookupCoherence" portType="ns3:Get_ptt" operation="Get"
+                    inputVariable="callLookupCoherence_Get_InputVariable"
+                    outputVariable="callLookupCoherence_Get_OutputVariable" bpelx:invokeAsDetail="no">
+              <bpelx:toProperties>
+                <bpelx:toProperty name="jca.coherence.Key" variable="callLookupCoherence_Get_InputVariable"
+                                  part="body"/>
+              </bpelx:toProperties>
+            </invoke>
+            <if name="checkStatus">
+              <documentation>
+                <![CDATA[fail]]>
+              </documentation>
+              <condition expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">not($callLookupCoherence_Get_OutputVariable.body/ns2:CacheKey)</condition><sequence name="Sequence5"><assign name="mapFail"
+                                                                                                                                                                                                                                                                                   xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+      
+      
+   <copy>
+         <from>'1'</from>
+         <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$replyFail_process_OutputVariable.payload/ns2:STATUS</to>
+      </copy><copy>
+         <from>concat('CACHE_NAME=', $inputVariable.payload/ns2:Parameters/ns2:Parameter[ns2:name = 'CACHE_NAME']/ns2:value, ' is not found')</from>
+         <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$replyFail_process_OutputVariable.payload/ns2:STATUS_MESSAGE</to>
+      </copy></assign><reply name="replyFail" partnerLink="dangkyprocess_client" variable="replyFail_process_OutputVariable"
+                   portType="client:DangKyProcess" operation="process"
+                   xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"/>
+                <exit name="Exit"/>
+              </sequence><else>
+                <documentation>
+                  <![CDATA[success]]>
+                </documentation>
+                <sequence name="Sequence6">
+                  <assign name="pushCohToPool">
+                    <extensionAssignOperation>
+                      <bpelx:append>
+                        <bpelx:from expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$callLookupCoherence_Get_OutputVariable.body/ns2:CacheValue/ns2:Parameters/ns2:Parameter</bpelx:from>
+                        <bpelx:to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$ParameterPool/ns2:Parameters[@Index = '1']</bpelx:to>
+                      </bpelx:append>
+                    </extensionAssignOperation>
+                  </assign>
+                </sequence>
+              </else>
+            </if>
+          </sequence>
+        </if>
+      </sequence>
+    </scope>
+    <scope name="inputToParamPool">
+      <variables>
+        <variable name="TmpParamPool" element="ns2:Parameters"/>
+      </variables><sequence name="Sequence16"><assign name="pushToTmp">
+          <extensionAssignOperation>
+            <bpelx:append>
+              <bpelx:from expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$inputVariable.payload/ns2:Parameters/ns2:Parameter</bpelx:from>
+              <bpelx:to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$TmpParamPool</bpelx:to>
+            </bpelx:append>
+          </extensionAssignOperation>
+          <extensionAssignOperation>
+            <bpelx:append>
+              <bpelx:from expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$ParameterPool/ns2:Parameters[@Index = 1]/ns2:Parameter</bpelx:from>
+              <bpelx:to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$TmpParamPool</bpelx:to>
+            </bpelx:append>
+          </extensionAssignOperation>
+        </assign>
+        <assign name="pushInputToPool">
+          <bpelx:annotation>
+            <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+          </bpelx:annotation>
+          <copy>
+            <from>ora:doXSLTransformForDoc("../Transformations/pushInputToPool.xsl", $TmpParamPool)</from>
+            <to variable="ParameterPool"/>
+          </copy>
+        </assign>
+      </sequence></scope>
+    <scope name="CheckDatabase">
+      <variables>
+        <variable name="replyFail_process_OutputVariable" messageType="client:DangKyProcessResponseMessage"/>
+        <variable name="tmpParamPool" element="ns2:ParameterPool"/>
+        <variable name="callDatabase_CheckDatabase_InputVariable" messageType="ns7:args_in_msg"/>
+        <variable name="callDatabase_CheckDatabase_OutputVariable" messageType="ns7:args_out_msg"/>
+      </variables>
+      <sequence name="Sequence8">
+        <assign name="mapParam">
+          <copy>
+            <from>string($ParameterPool/ns2:Parameters[@Index = 1]/ns2:Parameter[ns2:name = 'MSISDN']/ns2:value)</from>
+            <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$callDatabase_CheckDatabase_InputVariable.InputParameters/ns8:P_MSISDN</to>
+          </copy>
+          <copy>
+            <from>string($ParameterPool/ns2:Parameters[@Index = 1]/ns2:Parameter[ns2:name = 'SERVICE_CODE']/ns2:value)</from>
+            <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$callDatabase_CheckDatabase_InputVariable.InputParameters/ns8:P_SERVICE_CODE</to>
+          </copy>
+          <copy>
+            <from>string($ParameterPool/ns2:Parameters[@Index = 1]/ns2:Parameter[ns2:name = 'PKG_CODE']/ns2:value)</from>
+            <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$callDatabase_CheckDatabase_InputVariable.InputParameters/ns8:P_PKG_CODE</to>
+          </copy>
+          <copy>
+            <from>string($ParameterPool/ns2:Parameters[@Index = 1]/ns2:Parameter[ns2:name = 'SERVICE_CMD']/ns2:value)</from>
+            <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$callDatabase_CheckDatabase_InputVariable.InputParameters/ns8:P_SERVICE_CMD</to>
+          </copy>
+          <copy>
+            <from>string($ParameterPool/ns2:Parameters[@Index = 1]/ns2:Parameter[ns2:name = 'CHANNEL']/ns2:value)</from>
+            <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$callDatabase_CheckDatabase_InputVariable.InputParameters/ns8:P_CHANNEL</to>
+          </copy>
+          <copy>
+            <from>string($ParameterPool/ns2:Parameters[@Index = 1]/ns2:Parameter[ns2:name = 'SUB_ID']/ns2:value)</from>
+            <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$callDatabase_CheckDatabase_InputVariable.InputParameters/ns8:P_SUB_ID</to>
+          </copy>
+          <copy>
+            <from>number($ParameterPool/ns2:Parameters[@Index = 1]/ns2:Parameter[ns2:name = 'SOASTEP']/ns2:value) + 1</from>
+            <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$ParameterPool/ns2:Parameters[@Index = 1]/ns2:Parameter[ns2:name = 'SOASTEP']/ns2:value</to>
+          </copy>
+          <copy>
+            <from>'1'</from>
+            <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$callDatabase_CheckDatabase_InputVariable.InputParameters/ns8:P_TYPE</to>
+          </copy>
+        </assign>
+        <invoke name="callDatabase" inputVariable="callDatabase_CheckDatabase_InputVariable"
+                outputVariable="callDatabase_CheckDatabase_OutputVariable"
+                partnerLink="CheckDatabase" portType="ns7:CheckDatabase_ptt" operation="CheckDatabase"
+                bpelx:invokeAsDetail="no"/>
+        <if name="checkStatus">
+          <documentation/>
+          <condition expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">not($callDatabase_CheckDatabase_OutputVariable.OutputParameters/ns8:CHECK_PACKAGE_DATA) or $callDatabase_CheckDatabase_OutputVariable.OutputParameters/ns8:CHECK_PACKAGE_DATA != '0'</condition>
+          <sequence name="Sequence9">
+            <assign name="mapFail">
+              <copy>
+                <from>'1'</from>
+                <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$replyFail_process_OutputVariable.payload/ns2:STATUS</to>
+              </copy>
+              <copy>
+                <from>concat('CALL database fail CHECK_PACKAGE_DATA=', $callDatabase_CheckDatabase_OutputVariable.OutputParameters/ns8:CHECK_PACKAGE_DATA)</from>
+                <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$replyFail_process_OutputVariable.payload/ns2:STATUS_MESSAGE</to>
+              </copy>
+            </assign>
+            <reply name="replyFail" partnerLink="dangkyprocess_client" variable="replyFail_process_OutputVariable"
+                   portType="client:DangKyProcess" operation="process"/>
+            <exit name="Exit"/>
+          </sequence>
+          <else>
+            <sequence name="Sequence10">
+              <assign name="databaseResponse">
+                <bpelx:annotation>
+                  <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+                </bpelx:annotation>
+                <copy>
+                  <from>ora:doXSLTransformForDoc("../Transformations/databaseResponse.xsl", $callDatabase_CheckDatabase_OutputVariable.OutputParameters)</from>
+                  <to variable="tmpParamPool"/>
+                </copy>
+              </assign><assign name="pushToPool" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+      
+   <copy>
+                  <from>$ParameterPool/ns2:Parameters[@Index = 1]/ns2:Parameter[ns2:name = 'SOASTEP']/ns2:value</from>
+                  <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$tmpParamPool/ns2:Parameters[1]/@Index</to>
+                </copy><extensionAssignOperation>
+                  <bpelx:append xmlns:bpelx="http://schemas.oracle.com/bpel/extension">
+            <bpelx:from expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$tmpParamPool/ns2:Parameters</bpelx:from>
+            <bpelx:to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$ParameterPool</bpelx:to>
+         </bpelx:append>
+                </extensionAssignOperation></assign></sequence>
+          </else>
+        </if>
+      </sequence>
+    </scope>
+    <scope name="diameter">
+      <variables>
+        <variable name="callDiameter_execute_InputVariable" messageType="ns1:requestMessage"/>
+        <variable name="callDiameter_execute_OutputVariable" messageType="ns1:replyMessage"/>
+        <variable name="replyFail_process_OutputVariable" messageType="client:DangKyProcessResponseMessage"/>
+        <variable name="TmpParamPool" element="ns2:ParameterPool"/>
+      </variables>
+      <sequence name="Sequence1"><assign name="increaseSOAStep"
+                                         xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+      
+      
+      
+      
+      
+   <copy>
+         <from>number($ParameterPool/ns2:Parameters[@Index = 1]/ns2:Parameter[ns2:name = 'SOASTEP']/ns2:value) + 1</from>
+         <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$ParameterPool/ns2:Parameters[@Index = 1]/ns2:Parameter[ns2:name = 'SOASTEP']/ns2:value</to>
+      </copy></assign><assign name="RequestDiameter">
+          <bpelx:annotation>
+            <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+          </bpelx:annotation>
+          <copy>
+            <from>ora:doXSLTransformForDoc("../Transformations/DiameterRequest.xsl", $ParameterPool)</from>
+            <to variable="callDiameter_execute_InputVariable" part="request"/>
+          </copy>
+        </assign>
+        <invoke name="callDiameter" partnerLink="BS.Diameter" portType="ns1:execute_ptt" operation="execute"
+                inputVariable="callDiameter_execute_InputVariable" outputVariable="callDiameter_execute_OutputVariable"
+                bpelx:invokeAsDetail="no"/><if name="checkStatus" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+      <documentation>
+         
+      <![CDATA[fail]]></documentation>
+      <condition expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$callDiameter_execute_OutputVariable.response/ns2:STATUS = '1'</condition>
+      <sequence name="Sequence5">
+         <assign name="mapFail" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+      
+      
+   <copy>
+                <from>$callDiameter_execute_OutputVariable.response</from>
+                <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$outputVariable.payload</to>
+              </copy></assign>
+         <reply name="replyFail" partnerLink="dangkyprocess_client" variable="replyFail_process_OutputVariable"
+                portType="client:DangKyProcess" operation="process"
+                xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"/>
+         <exit name="Exit"/>
+      </sequence>
+          <else>
+            <documentation>
+              <![CDATA[success]]>
+            </documentation>
+            <sequence name="Sequence7">
+              <assign name="DiameterResponse">
+                <bpelx:annotation>
+                  <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+                </bpelx:annotation>
+                <copy>
+                  <from>ora:doXSLTransformForDoc("../Transformations/DiameterResponse.xsl", $callDiameter_execute_OutputVariable.response)</from>
+                  <to variable="TmpParamPool"/>
+                </copy>
+              </assign>
+              <assign name="pushToPool">
+                <copy>
+                  <from>string($ParameterPool/ns2:Parameters[@Index = 1]/ns2:Parameter[ns2:name = 'SOASTEP']/ns2:value)</from>
+                  <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$TmpParamPool/ns2:Parameters/@Index</to>
+                </copy>
+                <extensionAssignOperation>
+                  <bpelx:append>
+                    <bpelx:from expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$TmpParamPool/ns2:Parameters</bpelx:from>
+                    <bpelx:to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$ParameterPool</bpelx:to>
+                  </bpelx:append>
+                </extensionAssignOperation>
+              </assign>
+            </sequence>
+          </else>
+        </if></sequence>
+    </scope>
+    <scope name="confirm">
+      <variables>
+        <variable name="replyConfirm_process_OutputVariable" messageType="client:DangKyProcessResponseMessage"/>
+        <variable name="receiveConfirm_process_InputVariable" element="ns2:request"/>
+      </variables>
+      <eventHandlers>
+        <onAlarm>
+          <for>'PT10M'</for>
+          <scope name="Scope1">
+            <exit name="Exit"/>
+          </scope>
+        </onAlarm>
+      </eventHandlers>
+      <if name="isConfirm">
+        <documentation>
+          <![CDATA[not confirm]]>
+        </documentation>
+        <condition expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">string($ParameterPool/ns2:Parameters[@Index = 1]/ns2:Parameter[ns2:name = 'IS_CONFIRM']/ns2:value) = 'true'</condition>
+        <sequence name="Sequence11">
+          <assign name="responseConfirm">
+            <copy>
+              <from>'0'</from>
+              <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$replyConfirm_process_OutputVariable.payload/ns2:STATUS</to>
+            </copy>
+            <copy>
+              <from>'Please confirm'</from>
+              <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$replyConfirm_process_OutputVariable.payload/ns2:STATUS_MESSAGE</to>
+            </copy>
+          </assign>
+          <reply name="replyConfirm" partnerLink="dangkyprocess_client" variable="replyConfirm_process_OutputVariable"
+                 portType="client:DangKyProcess" operation="process"/>
+          <receive name="receiveConfirm" variable="receiveConfirm_process_InputVariable"
+                   partnerLink="dangkyprocess_client" portType="client:DangKyProcess" operation="process">
+            <correlations>
+              <correlation set="CorrelationSet_KEY" initiate="no"/>
+            </correlations>
+          </receive>
+          <assign name="response">
+            <copy>
+              <from>'0'</from>
+              <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$outputVariable.payload/ns2:STATUS</to>
+            </copy>
+            <copy>
+              <from>'SUCCESS|Confirm OK'</from>
+              <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$outputVariable.payload/ns2:STATUS_MESSAGE</to>
+            </copy>
+            <extensionAssignOperation>
+              <bpelx:append>
+                <bpelx:from expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$ParameterPool/ns2:Parameters[@StepName = 'Global' ]/ns2:Parameter</bpelx:from>
+                <bpelx:to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$outputVariable.payload/ns2:Parameters</bpelx:to>
+              </bpelx:append>
+            </extensionAssignOperation>
+          </assign>
+        </sequence>
+        <else>
+          <documentation>
+            <![CDATA[confirm]]>
+          </documentation><sequence name="Sequence12"><assign name="response"
+                                                       xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+      
+      
+      
+   <copy>
+         <from>'0'</from>
+         <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$outputVariable.payload/ns2:STATUS</to>
+      </copy><copy>
+         <from>'SUCCESS| go to else'</from>
+         <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$outputVariable.payload/ns2:STATUS_MESSAGE</to>
+      </copy><extensionAssignOperation>
+                <bpelx:append xmlns:bpelx="http://schemas.oracle.com/bpel/extension">
+            <bpelx:from expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$ParameterPool/ns2:Parameters[@StepName = 'Global' ]/ns2:Parameter</bpelx:from>
+            <bpelx:to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$outputVariable.payload/ns2:Parameters</bpelx:to>
+         </bpelx:append>
+              </extensionAssignOperation></assign></sequence></else>
+      </if>
+    </scope>
+    <scope name="MinusMoney">
+      <variables>
+        <variable name="callMinusMoney_execute_InputVariable" messageType="ns1:requestMessage"/>
+        <variable name="callMinusMoney_execute_OutputVariable" messageType="ns1:replyMessage"/>
+        <variable name="replyFail_process_OutputVariable" messageType="client:DangKyProcessResponseMessage"/>
+        <variable name="TmpParamPool" element="ns2:ParameterPool"/>
+      </variables>
+      <sequence name="Sequence13"><assign name="increaseSOAStep"
+                                          xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+      
+      
+      
+      
+      
+   <copy>
+         <from>number($ParameterPool/ns2:Parameters[@Index = 1]/ns2:Parameter[ns2:name = 'SOASTEP']/ns2:value) + 1</from>
+         <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$ParameterPool/ns2:Parameters[@Index = 1]/ns2:Parameter[ns2:name = 'SOASTEP']/ns2:value</to>
+      </copy></assign><assign name="MinusMoneyRequest">
+          <bpelx:annotation>
+            <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+          </bpelx:annotation>
+          <copy>
+            <from>ora:doXSLTransformForDoc("../Transformations/MinusMoneyRequest.xsl", $ParameterPool)</from>
+            <to variable="callMinusMoney_execute_InputVariable" part="request"/>
+          </copy>
+        </assign>
+        <invoke name="callMinusMoney" partnerLink="BS.Diameter" portType="ns1:execute_ptt" operation="execute"
+                inputVariable="callMinusMoney_execute_InputVariable"
+                outputVariable="callMinusMoney_execute_OutputVariable" bpelx:invokeAsDetail="no"/>
+        <if name="checkStatus">
+          <documentation>
+            <![CDATA[fail]]>
+          </documentation>
+          <condition expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$callMinusMoney_execute_OutputVariable.response/ns2:STATUS != '0'</condition>
+          <sequence name="Sequence14">
+            <assign name="mapFail">
+              <copy>
+                <from>$callMinusMoney_execute_OutputVariable.response</from>
+                <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$replyFail_process_OutputVariable.payload</to>
+              </copy>
+            </assign>
+            <reply name="replyFail" partnerLink="dangkyprocess_client" variable="replyFail_process_OutputVariable"
+                   portType="client:DangKyProcess" operation="process"/>
+            <exit name="Exit"/>
+          </sequence>
+          <else>
+            <documentation>
+              <![CDATA[success]]>
+            </documentation><sequence name="Sequence15"><assign name="MinusMoneyResponse"><bpelx:annotation><bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern></bpelx:annotation>
+                <copy>
+                  <from>ora:doXSLTransformForDoc("../Transformations/MinusMoneyResponse.xsl", $callMinusMoney_execute_OutputVariable.response)</from>
+                  <to variable="TmpParamPool"/>
+                </copy>
+              </assign><assign name="pushToPool" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+      
+      
+   <copy>
+         <from>string($ParameterPool/ns2:Parameters[@Index = 1]/ns2:Parameter[ns2:name = 'SOASTEP']/ns2:value)</from>
+         <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$TmpParamPool/ns2:Parameters/@Index</to>
+      </copy><extensionAssignOperation>
+                  <bpelx:append xmlns:bpelx="http://schemas.oracle.com/bpel/extension">
+            <bpelx:from expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$TmpParamPool/ns2:Parameters</bpelx:from>
+            <bpelx:to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$ParameterPool</bpelx:to>
+         </bpelx:append>
+                </extensionAssignOperation></assign></sequence></else>
+        </if>
+      </sequence>
+    </scope>
+    <scope name="updateDatabase">
+      <variables>
+        <variable name="replyFail_process_OutputVariable" messageType="client:DangKyProcessResponseMessage"/>
+        <variable name="tmpParamPool" element="ns2:ParameterPool"/>
+        <variable name="callUpdateInfo_updateDatabase_InputVariable" messageType="ns10:args_in_msg"/>
+        <variable name="callUpdateInfo_updateDatabase_OutputVariable" messageType="ns10:args_out_msg"/>
+      </variables>
+      <sequence name="Sequence17"><assign name="mapParam" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+      
+      
+      
+      
+      
+      
+      
+      
+   <copy>
+         <from>string($ParameterPool/ns2:Parameters[@Index = 1]/ns2:Parameter[ns2:name = 'MSISDN']/ns2:value)</from>
+         <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$callUpdateInfo_updateDatabase_InputVariable.InputParameters/ns11:P_MSISDN</to>
+      </copy><copy>
+         <from>string($ParameterPool/ns2:Parameters[@Index = 1]/ns2:Parameter[ns2:name = 'SERVICE_CODE']/ns2:value)</from>
+         <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$callUpdateInfo_updateDatabase_InputVariable.InputParameters/ns11:P_SERVICE_CODE</to>
+      </copy><copy>
+         <from>string($ParameterPool/ns2:Parameters[@Index = 1]/ns2:Parameter[ns2:name = 'PKG_CODE']/ns2:value)</from>
+         <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$callUpdateInfo_updateDatabase_InputVariable.InputParameters/ns11:P_PKG_CODE</to>
+      </copy><copy>
+         <from>string($ParameterPool/ns2:Parameters[@Index = 1]/ns2:Parameter[ns2:name = 'SERVICE_CMD']/ns2:value)</from>
+         <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$callUpdateInfo_updateDatabase_InputVariable.InputParameters/ns11:P_SERVICE_CMD</to>
+      </copy><copy>
+         <from>string($ParameterPool/ns2:Parameters[@Index = 1]/ns2:Parameter[ns2:name = 'CHANNEL']/ns2:value)</from>
+         <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$callUpdateInfo_updateDatabase_InputVariable.InputParameters/ns11:P_CHANNEL</to>
+      </copy><copy>
+         <from>string($ParameterPool/ns2:Parameters[@Index = 1]/ns2:Parameter[ns2:name = 'SUB_ID']/ns2:value)</from>
+         <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$callUpdateInfo_updateDatabase_InputVariable.InputParameters/ns11:P_SUB_ID</to>
+      </copy><copy>
+         <from>number($ParameterPool/ns2:Parameters[@Index = 1]/ns2:Parameter[ns2:name = 'SOASTEP']/ns2:value) + 1</from>
+         <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$ParameterPool/ns2:Parameters[@Index = 1]/ns2:Parameter[ns2:name = 'SOASTEP']/ns2:value</to>
+      </copy><copy>
+         <from>'1'</from>
+         <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$callUpdateInfo_updateDatabase_InputVariable.InputParameters/ns11:P_TYPE</to>
+      </copy></assign><invoke name="callUpdateInfo" inputVariable="callUpdateInfo_updateDatabase_InputVariable"
+                outputVariable="callUpdateInfo_updateDatabase_OutputVariable"
+                partnerLink="updateDatabase" portType="ns10:updateDatabase_ptt" operation="updateDatabase"
+                bpelx:invokeAsDetail="no"/><if name="checkStatus"
+                                                                                                             xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+          <documentation>
+            <![CDATA[fail]]>
+          </documentation>
+          <condition expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">not($callUpdateInfo_updateDatabase_OutputVariable.OutputParameters/ns11:UPDATE_PACKAGE_DATA) or $callUpdateInfo_updateDatabase_OutputVariable.OutputParameters/ns11:UPDATE_PACKAGE_DATA != '0'</condition>
+      <sequence name="Sequence9">
+         <assign name="mapFail">
+              <copy>
+                <from>'1'</from>
+                <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$replyFail_process_OutputVariable.payload/ns2:STATUS</to>
+              </copy>
+              <copy>
+                <from>concat('CALL database fail UPDATE_INFO=',$callUpdateInfo_updateDatabase_OutputVariable.OutputParameters/ns11:UPDATE_PACKAGE_DATA)</from>
+                <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$replyFail_process_OutputVariable.payload/ns2:STATUS_MESSAGE</to>
+              </copy>
+            </assign>
+         <reply name="replyFail" partnerLink="dangkyprocess_client" variable="replyFail_process_OutputVariable"
+                portType="client:DangKyProcess" operation="process"/>
+         <exit name="Exit"/>
+      </sequence>
+   </if></sequence>
+    </scope>
+    <!-- Generate reply to synchronous request -->
+    <reply name="replyOutput" partnerLink="dangkyprocess_client" portType="client:DangKyProcess" operation="process" variable="outputVariable"/>
+    <exit name="end"/>
+  </sequence>
+</process>

@@ -20,4 +20,14 @@ Simple SOA Composite Architecture -> Kiến trúc đơn giản của SOA Composi
 --------
 Install Oracle SOA Suite Quick Start. -> đã cài đặt -> ok
 
-Làng chài Hàm Ninh
+Oracle Database Adapter:
+
+
+https://www.facebook.com/groups/otofun.global/permalink/3375376479181295/
+
+BPEL Process Service Component as the Client.
+Introduction to Aschrous Interaction
+
+Introduction to Asynchronouns Interaction with a Timeout.
+Introduction to Partial Processing
+
