@@ -1,0 +1,10 @@
+------How to create RESTFUL Webservice and call using Oracle SOA -------
+B1: Creating SOA Application -> Create SOA Project
+B2: Creating XML Schema Interface
+B3: Http binding -> 
+B4: BPEL Process -> 
+	No Service -> Template: Define Service Later:
+	
+	Receive -> Create Variable -> 
+	Reply -> Create Variable -> 
+	Assign -> Input map to Output -> 

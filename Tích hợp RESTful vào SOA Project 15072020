@@ -1,0 +1,40 @@
+Error creating bean with name 'emplyeeRESTController
+Error creating bean with name 'emplyeeRESTController'
+Unsatisfied dependency expressed through field 'employeeService'
+Error creating bean with name 'employeeService'
+Unsatisfied dependency expressed through field 'sessionFactory'
+
+Error creating bean with name 'sessionFactory'
+com/manhkm/demoRestAPI/config/HibernateConfig.class
+
+
+Error creating bean with name 'sessionFactory' defined in class path resource [com/manhkm/demoRestAPI/config/HibernateConfig.class]: 
+Bean instantiation via factory method failed; 
+nested exception is org.springframework.beans.BeanInstantiationException: 
+Failed to instantiate [org.hibernate.SessionFactory]: 
+Factory method 'getSessionFactory' threw exception; 
+nested exception is java.lang.NullPointerException
+
+Error creating bean with name 'sessionFactory'
+--------------
+git log --oneline --graph
+git reset --hard {code_push}
+
+git reset hard head
+
+
+82dc223
+7554e42
+=====================Đã có một REST trả về tương ứng=====================
+Đưa vào Oracle SOA Suite để làm việc
+Bài viết hướng dẫn:
+https://technology.amis.nl/2014/06/26/soa-suite-12c-rest-adapter/
+REST Adapter: 
+
+Exposed Service: 
+External References:
+
+
+SOA Suite 12C: Introducing the REST Adapter. Calling a RESTful service returning JSON
+
+A REST binding Adapter can send/receive message to/from a REST Service

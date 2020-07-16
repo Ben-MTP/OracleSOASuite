@@ -1,0 +1,16 @@
+---Welcome Create RESTFULL WS and call it using Oracle SOA version 2---
+B1: Create SOA Application -> Create SOA Project
+B2: CallRESTServiceProject
+	syncho
+B3: HTTP Binding -> Right
+	Servicename: CallingRestWS
+	Endpoint: 
+
+B4: Using Invoke ->
+	InputVariable --> InvokeInput
+	Outputwebservice --> Output webservice
+	
+
+minhmanh.evn@gmail.com
+manhkm96
+15A30a27a01postname
