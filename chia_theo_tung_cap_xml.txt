@@ -1,0 +1,20 @@
+convert xml
+chia theo từng cấp
+
+<List>
+    <item>
+        <empId>1</empId>
+        <empNo>CODE001</empNo>
+        <empName>ManhKM</empName>
+    </item>
+    <item>
+        <empId>2</empId>
+        <empNo>CODE002</empNo>
+        <empName>NhanVien01</empName>
+    </item>
+    <item>
+        <empId>3</empId>
+        <empNo>CODE003</empNo>
+        <empName>NhanVien02</empName>
+    </item>
+</List>
